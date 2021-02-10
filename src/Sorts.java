@@ -27,6 +27,7 @@ public class Sorts<T extends Comparable<? super T>> {
         T temp, curEl, prevEl;
         for (int i = 1; i <= end; i++) {
             j = i;
+            // continuously switches an element with its previous if its previous is greater
             while (j > 0 && list.get(j).compareTo(list.get(j - 1)) < 0) {
                 temp = list.get(j);
                 list.set(j, list.get(j - 1));
@@ -101,6 +102,7 @@ public class Sorts<T extends Comparable<? super T>> {
      */
     public void QuickSort(ArrayList<T> list, int start, int end) {
         if (start < end) {
+            // sorts parts of lists around a secured partition
             int lowEndIndex = partition(list, start, end);
             QuickSort(list, start, lowEndIndex);
             QuickSort(list, lowEndIndex + 1, end);
@@ -153,8 +155,10 @@ public class Sorts<T extends Comparable<? super T>> {
      */
     public void Modified_QuickSort(ArrayList<T> list, int start, int end, int cutoff) {
         if (start >= end) { return; }
+        // when a subarray is small enough, insertion sort is used instead
         else if ((end - start) + 1 <= cutoff) { this.InsertionSort(list, start, end); }
 
+        // otherwise, traditional QuickSort is used until subarrays are small enough
         int lowEndIndex = partition(list, start, end);
         QuickSort(list, start, lowEndIndex);
         QuickSort(list, lowEndIndex + 1, end);
@@ -193,6 +197,7 @@ public class Sorts<T extends Comparable<? super T>> {
             subarrLen *= INCREASE_PARAM;
         }
 
+        // finally, merge with any remaining fraction of a sub-array leftover at the end
         int leftoverSub = arrLen % (param * INCREASE_PARAM);
         if (leftoverSub != 0) {
             this.merge(list, start, end - leftoverSub, end);
